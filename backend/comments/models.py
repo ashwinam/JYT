@@ -1,6 +1,5 @@
 from time import timezone
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -11,7 +10,7 @@ class Comment(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    create_date = models.DateTimeField(default = timezone.now)
+    create_date = models.DateTimeField(auto_now=True)
     content = models.TextField()
     approved_comment = models.BooleanField(default=False)
 
