@@ -88,8 +88,12 @@ WSGI_APPLICATION = 'JYT_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'jytdb',
+        'HOST': 'localhost',
+        'USER': 'jyt_user',
+        'PASSWORD': 'jyt@2022',
+        'PORT': 5432
     }
 }
 
