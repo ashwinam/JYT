@@ -22,6 +22,8 @@ admin.site.index_title = 'Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('home.urls')), # gave the app url permission
     path('playground/', include('playground.urls')), # gave the app url permission
     path('__debug__/', include('debug_toolbar.urls')),
+    path('blog/', include('blog.urls')),
 ]

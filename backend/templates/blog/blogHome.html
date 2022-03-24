@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog Home{% endblock title %}
+{% block blogActive %} active {% endblock blogActive %}
+
+{% block body %}
+<div class="container">
+    <h3>JYTs Blogs: </h3>
+</div>
+{% for post in posts %}
+<div class="container my-3">
+    <div class="card">
+        <h5 class="card-header">{{post.author}}</h5>
+        <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <p class="card-text">{{post.content | truncatechars:300}}</p>
+            <a href="/blog/{{post.slug}}" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock body %}
