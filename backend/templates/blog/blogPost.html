@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load extras %}
+
 
 {% block title %}Blog Post{% endblock title %}
 
@@ -12,4 +16,82 @@
         <hr>
     </article>
 </div>
-{% endblock body %}
+<div class="container">
+    <h2>Comments ({{comments.count}}): </h2>
+    {% if user.is_authenticated %}
+    <form action="/blog/post_comment" method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="comment" class="form-label">Post comment</label>
+            <input type="text" class="form-control" name="comment" id="comment">
+            <input type="hidden" name="parent_sno" value="">
+
+            <input type="hidden" name="post_sno" value="{{post.id}}">
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">post comment</button>
+            </div>
+        </div>
+    </form>
+    {% else %}
+    <p>please Login for Posting Comments <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal"
+            data-bs-target="#Login" data-bs-whatever="@getbootstrap">Login</button></p>
+    {% endif %}
+    {% for comment in comments %}
+    <div class="row  my-2">
+        <div class="col-md-1"><img src="{% static 'images/loginUser.png' %}" class="rounded-circle" alt="loginUser"
+                width="50" height="50"> </div>
+        <div class="col-md-11"><b>{{comment.user.username}}</b> <span class="badge bg-dark">
+                {{comment.created_at|naturalday}}</span>
+            <p>{{comment.comment}}</p>
+            <div class="reply mx-0">
+                {% if user.is_authenticated %}
+
+                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#replybox{{comment.id}}" aria-expanded="false"
+                    aria-controls="replybox{{comment.id}}">
+                    Reply
+                </button>
+                <div class="collapse" id="replybox{{comment.id}}">
+                    <div class="card card-body my-2">
+                        <form action="/blog/post_comment" method="post">
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Post comment</label>
+                                <input type="text" class="form-control" name="comment" id="comment">
+                                <input type="hidden" name="post_sno" value="{{post.id}}">
+                                <input type="hidden" name="parent_sno" value="{{comment.id}}">
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Post Reply</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <b>Log In To</b> <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#replybox{{comment.id}}" aria-expanded="false"
+                    aria-controls="replybox{{comment.id}}" disabled>
+                    Reply
+                </button>
+                {% endif %}
+                <div class="replies my-2">
+                    {% for reply in replyDict|get_val:comment.id %}
+                    <div class="row">
+                        <div class="col-md-1"><img src="{% static 'images/loginUser.png' %}" class="rounded-circle"
+                                alt="loginUser" width="50" height="50"> </div>
+                        <div class="col-md-11"><b>{{reply.user.username}}</b> <span class="badge bg-dark">
+                                {{reply.created_at|naturalday}}</span>
+                            <p>{{reply.comment}}</p>
+
+
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock body %}

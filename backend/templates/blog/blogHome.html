@@ -12,7 +12,7 @@
     <div class="card">
         <h5 class="card-header">{{post.author}}</h5>
         <div class="card-body">
-            <h5 class="card-title">{{post.title}}</h5>
+            <a href="/blog/{{post.slug}}" class="text-decoration-none"><h5 class="card-title text-dark ">{{post.title}}</h5></a>
             <p class="card-text">{{post.content | truncatechars:300}}</p>
             <a href="/blog/{{post.slug}}" class="btn btn-primary">Go somewhere</a>
         </div>
