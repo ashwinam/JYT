@@ -7,6 +7,8 @@ from . import models
 @admin.register(models.Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title']
+    class Media:
+        js=("js/tinyinjector.js",)
 
 @admin.register(models.BlogComment)
 class BlogCommentAdmin(admin.ModelAdmin):

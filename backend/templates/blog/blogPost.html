@@ -12,7 +12,7 @@
         <h2 class="blog-post-title">{{post.title}}</h2>
         <p class="blog-post-meta">{{post.post_date}} by <a href="/about">{{post.author}}</a></p>
 
-        <p>{{post.content}}</p>
+        <p>{{post.content|safe}}</p>
         <hr>
     </article>
 </div>
@@ -84,7 +84,6 @@
                         <div class="col-md-11"><b>{{reply.user.username}}</b> <span class="badge bg-dark">
                                 {{reply.created_at|naturalday}}</span>
                             <p>{{reply.comment}}</p>
-
 
                         </div>
                         {% endfor %}
